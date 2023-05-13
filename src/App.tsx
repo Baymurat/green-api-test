@@ -4,6 +4,7 @@ import PrivateRoutLayout from '@components/layout/PrivateRoutLayout';
 import { AuthContextProvier } from '@context/AuthContextProvider';
 import ErrorPage404 from '@pages/error404';
 import WhatsApp from '@pages/whats-app';
+import './reset.css'
 
 function App() {
   return (
