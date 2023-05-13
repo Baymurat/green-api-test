@@ -33,6 +33,9 @@
       "@context/*": [
         "context/*"
       ],
+      "@custom-types/*": [
+        "custom-types/*"
+      ],
     }
   },
   "include": [
