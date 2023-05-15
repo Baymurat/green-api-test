@@ -8,7 +8,7 @@ import { Message, WSUser } from '@custom-types/types'
 import { useAuthContext } from '@context/AuthContextProvider'
 import SentMessage from './components/SentMessage'
 import ReceivedMessage from './components/ReceivedMessage'
-import React from 'react'
+import React, { useState } from 'react'
 
 interface Props {
   messages: Message[]
@@ -17,6 +17,7 @@ interface Props {
 
 const Chat = ({ messages, companion }: Props) => {
   const { user } = useAuthContext()
+  const [pressedKeys, setPressedKeys] = useState<Record<string, string>>({})
 
   return (
     <Stack height={'100%'}>
@@ -36,21 +37,23 @@ const Chat = ({ messages, companion }: Props) => {
       </Stack>
       <Stack
         sx={{
+          flexDirection: 'column-reverse',
           padding: 1,
           flexGrow: 1,
-          justifyContent: 'end',
           backgroundImage: 'url(/chat-background-image.jpg)',
-          backgroundSize: 'contain'
+          backgroundSize: 'contain',
+          overflowY: 'auto',
+          height: '100%'
         }}
       >
         {messages.map((message) => (
-          <React.Fragment key={message.id}>
+          <div key={message.id}>
             {
               message.author.id === user?.id
                 ? (<SentMessage {...message} />)
                 : (<ReceivedMessage {...message} />)
             }
-          </React.Fragment>
+          </div>
         ))}
       </Stack>
       <Stack
@@ -66,6 +69,22 @@ const Chat = ({ messages, companion }: Props) => {
           multiline
           maxRows={2}
           placeholder='Введите сообщение'
+          onKeyDown={(event) => {
+            const { code } = event
+
+            if ((code === 'NumpadEnter' || code === 'Enter') && pressedKeys.ShiftLeft === undefined) {
+              event.preventDefault()
+              console.log('SEND MESSAGE');
+            }
+            setPressedKeys((prev) => ({ ...prev, [code]: code }))
+          }}
+          onKeyUp={({ code }) => {
+            setPressedKeys((prev) => {
+              return Object.keys(prev).reduce((acc, curr) => {
+                return curr === code ? { ...acc } : { ...acc, [curr]: curr }
+              }, {})
+            })
+          }}
           sx={{
             bgcolor: '#fff',
             borderRadius: '5px',
