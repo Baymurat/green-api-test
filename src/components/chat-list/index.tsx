@@ -20,7 +20,7 @@ const ChatList = ({ chats }: Props) => {
       sx={{
         bgcolor: '#fff',
         height: '100%',
-        overflowY: 'scroll'
+        overflowY: 'auto'
       }}
     >
       {chats.map((chat) => (
