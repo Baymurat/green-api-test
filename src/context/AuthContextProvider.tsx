@@ -2,6 +2,7 @@ import { FC, PropsWithChildren, createContext, useContext, useState } from "reac
 
 interface User {
   name: string
+  id: string
 }
 
 interface IAuthContext {
@@ -13,7 +14,7 @@ const AuthContext = createContext<IAuthContext | null>(null)
 const userFromLocalStorage = JSON.parse(localStorage.getItem('ws-user') ?? 'null')
 
 export const AuthContextProvier: FC<PropsWithChildren> = ({ children }) => {
-  const [user, setUserState] = useState<User | null>(userFromLocalStorage)
+  const [user, setUserState] = useState<User | null>({ name: 'Steve', id: 'a' })
   const setUser = (data: any) => {
     localStorage.setItem('ws-user', data)
     setUserState(data)
