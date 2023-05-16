@@ -15,6 +15,8 @@ export interface WSUser {
   statusInstanceWebhook: string
   sendFromUTC: string
   sendToUTC: string
+  idInstance: string
+  apiTokenInstance: string
 }
 
 export interface Message {
@@ -66,4 +68,10 @@ interface IQuotedMessage {
   stanzaId: string
   participant: string
   typeMessage: string
+}
+
+export interface Contact {
+  id: string
+  name: string
+  type: 'user' | 'group'
 }
