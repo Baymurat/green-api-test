@@ -36,6 +36,12 @@
       "@custom-types/*": [
         "custom-types/*"
       ],
+      "@redux/*": [
+        "redux/*"
+      ],
+      "@hooks/*": [
+        "hooks/*"
+      ],
     }
   },
   "include": [

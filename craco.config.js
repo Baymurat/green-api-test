@@ -8,6 +8,8 @@ module.exports = {
       '@utils': path.resolve(__dirname, 'src/utils'),
       '@context': path.resolve(__dirname, 'src/context'),
       '@custom-types': path.resolve(__dirname, 'src/custom-types'),
+      '@redux': path.resolve(__dirname, 'src/redux'),
+      '@hooks': path.resolve(__dirname, 'src/hooks'),
     }
   }
 }
