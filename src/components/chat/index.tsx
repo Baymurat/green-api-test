@@ -30,9 +30,9 @@ const Chat = ({ messages, companion }: Props) => {
         gap={'1rem'}
         alignItems={'center'}
       >
-        <Avatar alt={companion.name} src={companion.icon} />
+        <Avatar alt={companion.wid} />
         <Typography>
-          {companion.name}
+          {companion.wid}
         </Typography>
       </Stack>
       <Stack
@@ -47,11 +47,11 @@ const Chat = ({ messages, companion }: Props) => {
         }}
       >
         {messages.map((message) => (
-          <div key={message.id}>
+          <div key={message.idMessage}>
             {
-              message.author.id === user?.id
-                ? (<SentMessage {...message} />)
-                : (<ReceivedMessage {...message} />)
+              message.instanceData.wid === user?.wid
+                ? (<ReceivedMessage {...message} />)
+                : (<SentMessage {...message} />)
             }
           </div>
         ))}

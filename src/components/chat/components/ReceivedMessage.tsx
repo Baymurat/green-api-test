@@ -5,7 +5,7 @@ import Box from '@mui/material/Box'
 
 type Props = Message
 
-const ReceivedMessage = ({ id, content, messageDate, author }: Props) => {
+const ReceivedMessage = ({ timestamp, messageData }: Props) => {
   return (
     <Stack
       width={'fit-content'}
@@ -17,7 +17,7 @@ const ReceivedMessage = ({ id, content, messageDate, author }: Props) => {
     >
       <Box mx={1}>
         <Typography>
-          {content}
+          {messageData.typeMessage === 'textMessage' && messageData.textMessageData.textMessage}
         </Typography>
       </Box>
       <Box
@@ -25,7 +25,7 @@ const ReceivedMessage = ({ id, content, messageDate, author }: Props) => {
         bottom={-10}
       >
         <Typography variant='caption' textAlign={'end'}>
-          {messageDate}
+          {timestamp}
         </Typography>
       </Box>
     </Stack>
