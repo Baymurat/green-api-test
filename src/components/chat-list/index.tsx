@@ -2,16 +2,10 @@ import Stack from '@mui/material/Stack'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Avatar from '@mui/material/Avatar'
-
-interface Chat {
-  name: string
-  lastMessage: string
-  modifiedDate: string
-  icon: string
-}
+import { Contact } from '@custom-types/types'
 
 interface Props {
-  chats: Chat[]
+  chats: Contact[]
 }
 
 const ChatList = ({ chats }: Props) => {
@@ -25,7 +19,7 @@ const ChatList = ({ chats }: Props) => {
     >
       {chats.map((chat) => (
         <Stack
-          key={chat.name}
+          key={chat.id}
           direction={'row'}
           padding={'0.75rem 0.75rem'}
           sx={{
@@ -38,7 +32,7 @@ const ChatList = ({ chats }: Props) => {
           }}
         >
           <Box flex={'0 1 auto'} pr={'1rem'} >
-            <Avatar alt={chat.name} src={chat.icon} />
+            <Avatar alt={chat.name} />
           </Box>
           <Stack
             flex={'1 1 auto'}
@@ -47,10 +41,10 @@ const ChatList = ({ chats }: Props) => {
             pr={1}
           >
             <Typography>{chat.name}</Typography>
-            <Typography noWrap color={'GrayText'} variant='caption'>{chat.lastMessage}</Typography>
+            {/* <Typography noWrap color={'GrayText'} variant='caption'>{chat.lastMessage}</Typography> */}
           </Stack>
           <Box flex={'0 1 auto'} >
-            <Typography color={'GrayText'} variant='caption'>{chat.modifiedDate}</Typography>
+            {/* <Typography color={'GrayText'} variant='caption'>{chat.modifiedDate}</Typography> */}
           </Box>
         </Stack>
       ))}
