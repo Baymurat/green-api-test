@@ -44,8 +44,12 @@ const LoginPage = () => {
           throw new Error('Unauthorized', { cause: 'Unauthorized' })
         }
       })
-      .then((data) => {
-        setUser(data)
+      .then((res) => {
+        setUser({
+          ...res,
+          idInstance: data.idInstance,
+          apiTokenInstance: data.apiTokenInstance
+        })
         navigate('/whats-app')
       })
       .catch((err) => {
