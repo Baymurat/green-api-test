@@ -22,7 +22,9 @@ const ChatList = ({ chats }: Props) => {
       sx={{
         bgcolor: '#fff',
         height: '100%',
-        overflowY: 'auto'
+        overflowY: 'auto',
+        maxWidth: 320,
+        minWidth: 200
       }}
     >
       {chats.map((chat) => (
@@ -46,7 +48,6 @@ const ChatList = ({ chats }: Props) => {
           <Stack
             flex={'1 1 auto'}
             overflow={'hidden'}
-            width={220}
             pr={1}
           >
             <Typography>{chat.name}</Typography>

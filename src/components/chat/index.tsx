@@ -4,19 +4,17 @@ import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 
-import { Message, WSUser } from '@custom-types/types'
-import { useAuthContext } from '@context/AuthContextProvider'
+import { IChatMessage, WSUser } from '@custom-types/types'
 import SentMessage from './components/SentMessage'
 import ReceivedMessage from './components/ReceivedMessage'
 import React, { useState } from 'react'
 
 interface Props {
-  messages: Message[]
+  messages: IChatMessage[]
   companion: WSUser
 }
 
 const Chat = ({ messages, companion }: Props) => {
-  const { user } = useAuthContext()
   const [pressedKeys, setPressedKeys] = useState<Record<string, string>>({})
 
   return (
@@ -46,15 +44,16 @@ const Chat = ({ messages, companion }: Props) => {
           height: '100%'
         }}
       >
-        {messages.map((message) => (
-          <div key={message.idMessage}>
-            {
-              message.instanceData.wid === user?.wid
-                ? (<ReceivedMessage {...message} />)
-                : (<SentMessage {...message} />)
-            }
-          </div>
-        ))}
+        {messages.filter((message) => message.typeMessage === 'textMessage')
+          .map((message) => (
+            <div key={message.idMessage}>
+              {
+                message.type === 'incoming'
+                  ? (<ReceivedMessage {...message} />)
+                  : (<SentMessage {...message} />)
+              }
+            </div>
+          ))}
       </Stack>
       <Stack
         flexGrow={0}

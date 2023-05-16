@@ -1,11 +1,13 @@
-import { Message } from '@custom-types/types'
+import { IChatMessage } from '@custom-types/types'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 
-type Props = Message
+type Props = IChatMessage
 
-const ReceivedMessage = ({ timestamp, messageData }: Props) => {
+const ReceivedMessage = ({ timestamp, textMessage }: Props) => {
+  const date = new Date(timestamp)
+
   return (
     <Stack
       width={'fit-content'}
@@ -17,7 +19,7 @@ const ReceivedMessage = ({ timestamp, messageData }: Props) => {
     >
       <Box mx={1}>
         <Typography>
-          {messageData.typeMessage === 'textMessage' && messageData.textMessageData.textMessage}
+          {textMessage}
         </Typography>
       </Box>
       <Box
@@ -25,7 +27,7 @@ const ReceivedMessage = ({ timestamp, messageData }: Props) => {
         bottom={-10}
       >
         <Typography variant='caption' textAlign={'end'}>
-          {timestamp}
+          {date.getHours()}:{date.getMinutes()}
         </Typography>
       </Box>
     </Stack>
