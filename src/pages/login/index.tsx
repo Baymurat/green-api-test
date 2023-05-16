@@ -6,6 +6,11 @@ import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { registerError } from '@utils/textFieldHelper'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useAuthContext } from '@context/AuthContextProvider'
+import FormHelperText from '@mui/material/FormHelperText'
+import CircularProgress from '@mui/material/CircularProgress';
 
 interface ILoginForm {
   idInstance: string
@@ -22,8 +27,30 @@ const LoginPage = () => {
     resolver: yupResolver(yupSchema)
   })
 
+  const navigate = useNavigate()
+  const { setUser } = useAuthContext()
+  const [isUnauthorized, setIsUnauthorized] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
   const onSubmit = (data: ILoginForm) => {
-    console.log(data);
+    setIsLoading(true)
+    fetch(`https://api.green-api.com/waInstance${data.idInstance}/GetSettings/${data.apiTokenInstance}`)
+      .then((res) => {
+        if (res.status === 200) {
+          return res.json()
+        }
+
+        if (res.status === 401) {
+          throw new Error('Unauthorized', { cause: 'Unauthorized' })
+        }
+      })
+      .then((data) => {
+        setUser(data)
+        navigate('/whats-app')
+      })
+      .catch((err) => {
+        setIsUnauthorized(true)
+      })
   }
 
   return (
@@ -37,6 +64,7 @@ const LoginPage = () => {
         <Stack
           direction={'column'}
           gap={'1rem'}
+          alignItems={'center'}
         >
           <TextField
             {...register('idInstance')}
@@ -48,12 +76,23 @@ const LoginPage = () => {
             {...registerError(errors, 'apiTokenInstance')}
             label={'Api TokenInstance'}
           />
+          {isUnauthorized && (
+            <FormHelperText error>
+              Неверный токен или id
+            </FormHelperText>
+          )}
           <Button
             type='submit'
             color="success"
             variant='contained'
+            disabled={isLoading}
+            fullWidth
           >
-            Login
+            {
+              isLoading
+                ? <CircularProgress size={25} />
+                : <>Login</>
+            }
           </Button>
         </Stack>
       </form>

@@ -11,7 +11,7 @@ function App() {
     <AuthContextProvier>
       <Router>
         <Routes>
-          <Route path='/'>
+          <Route path='/' element={<PrivateRoutLayout />}>
             <Route path='/whats-app' element={<WhatsApp />} />
           </Route>
           <Route path='/login' element={<LoginPage />} />

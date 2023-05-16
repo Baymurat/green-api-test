@@ -11,8 +11,8 @@ const userFromLocalStorage = JSON.parse(localStorage.getItem('ws-user') ?? 'null
 
 export const AuthContextProvier: FC<PropsWithChildren> = ({ children }) => {
   const [user, setUserState] = useState<WSUser | null>(userFromLocalStorage)
-  const setUser = (data: any) => {
-    localStorage.setItem('ws-user', data)
+  const setUser = (data: WSUser) => {
+    localStorage.setItem('ws-user', JSON.stringify(data))
     setUserState(data)
   }
 
