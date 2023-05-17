@@ -3,19 +3,32 @@ import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
+import Box from '@mui/material/Box'
 
-import { IChatMessage, WSUser } from '@custom-types/types'
+import { IChatMessage, IContactInfo } from '@custom-types/types'
 import SentMessage from './components/SentMessage'
 import ReceivedMessage from './components/ReceivedMessage'
 import React, { useState } from 'react'
 
 interface Props {
   messages: IChatMessage[]
-  companion: WSUser
+  companion: IContactInfo | null
 }
 
 const Chat = ({ messages, companion }: Props) => {
   const [pressedKeys, setPressedKeys] = useState<Record<string, string>>({})
+
+  if (companion == null) {
+    return (
+      <Box
+        sx={{
+          height: '100%',
+          backgroundImage: 'url(/chat-background-image.jpg)',
+          backgroundSize: 'contain',
+        }}
+      />
+    )
+  }
 
   return (
     <Stack height={'100%'}>
@@ -28,9 +41,9 @@ const Chat = ({ messages, companion }: Props) => {
         gap={'1rem'}
         alignItems={'center'}
       >
-        <Avatar alt={companion.wid} />
+        <Avatar alt={companion.name} src={companion.avatar} />
         <Typography>
-          {companion.wid}
+          {companion.name}
         </Typography>
       </Stack>
       <Stack
