@@ -3,8 +3,8 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Avatar from '@mui/material/Avatar'
 import { Contact } from '@custom-types/types'
-import { useAppDispatch } from '@hooks/redux-hooks'
-import { setSelectedChat } from '@redux/features/selectedChat/selectedChatSlice'
+import { useAppDispatch, useAppSelector } from '@hooks/redux-hooks'
+import { selectedChatSelector, setSelectedChat } from '@redux/features/selectedChat/selectedChatSlice'
 
 interface Props {
   chats: Contact[]
@@ -12,6 +12,8 @@ interface Props {
 
 const ChatList = ({ chats }: Props) => {
   const dispatch = useAppDispatch()
+
+  const selectedChatId = useAppSelector(selectedChatSelector)
 
   const handleClick = (chatId: string) => {
     dispatch(setSelectedChat(chatId))
@@ -34,6 +36,7 @@ const ChatList = ({ chats }: Props) => {
           direction={'row'}
           padding={'0.75rem 0.75rem'}
           sx={{
+            bgcolor: chat.id === selectedChatId ? '#f5f6f6' : '#fff',
             transition: 'background-color 200ms ease',
             borderBottom: '1px solid #e9edef',
             '&:hover': {
