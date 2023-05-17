@@ -19,6 +19,15 @@ export interface WSUser {
   apiTokenInstance: string
 }
 
+export interface IContactInfo {
+  avatar: string
+  name: string
+  email: string
+  category: string
+  description: string
+  chatId: string
+}
+
 export interface IChatMessage {
   type: 'outgoing' | 'incoming'
   timestamp: number
