@@ -10,6 +10,13 @@ export const messagesApi = createApi({
         return `waInstance${idInstance}/GetContacts/${apiTokenInstance}`
       },
     }),
+    getUserInfo: builder.mutation<any, { idInstance: string, apiTokenInstance: string, chatId: string }>({
+      query: ({ idInstance, apiTokenInstance, chatId }) => ({
+        url: `waInstance${idInstance}/getContactInfo/${apiTokenInstance}`,
+        method: 'POST',
+        body: { chatId }
+      })
+    }),
     getMessages: builder.mutation<IChatMessage[], { idInstance: string, apiTokenInstance: string, chatId: string, count: number }>({
       query: ({ idInstance, apiTokenInstance, chatId, count }) => ({
         url: `waInstance${idInstance}/GetChatHistory/${apiTokenInstance}`,
@@ -20,4 +27,4 @@ export const messagesApi = createApi({
   })
 })
 
-export const { useGetContactsQuery, useGetMessagesMutation } = messagesApi
+export const { useGetContactsQuery, useGetMessagesMutation, useGetUserInfoMutation } = messagesApi
