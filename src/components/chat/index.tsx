@@ -5,7 +5,7 @@ import TextField from '@mui/material/TextField'
 import Box from '@mui/material/Box'
 import { IoSendSharp } from 'react-icons/io5'
 
-import { IChatMessage, IContactInfo } from '@custom-types/types'
+import { IChatMessage, IContactInfo, ETypeMessage } from '@custom-types/types.d'
 import SentMessage from './components/SentMessage'
 import ReceivedMessage from './components/ReceivedMessage'
 import { useState } from 'react'
@@ -73,7 +73,7 @@ const Chat = ({ messages, companion }: Props) => {
           height: '100%'
         }}
       >
-        {messages.filter((message) => message.typeMessage === 'textMessage')
+        {messages.filter((message) => message.typeMessage === ETypeMessage.textMessage || message.typeMessage === ETypeMessage.extendedTextMessage)
           .map((message) => (
             <div key={message.idMessage}>
               {

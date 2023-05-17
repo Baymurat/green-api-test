@@ -33,7 +33,7 @@ export interface IChatMessage {
   timestamp: number
   idMessage: string
   statusMessage?: 'pending' | 'sent' | 'delivered' | 'read'
-  typeMessage: TTypeMessage
+  typeMessage: ETypeMessage
   chatId: string
   textMessage: string
   senderId?: string
@@ -41,7 +41,7 @@ export interface IChatMessage {
 }
 
 export interface Message {
-  typeWebhook: TWebhook
+  typeWebhook: EWebhook
   instanceData: IInstanceData
   timestamp: number
   idMessage: string
@@ -49,7 +49,7 @@ export interface Message {
   messageData: TMessageData
 }
 
-export enum TWebhook {
+export enum EWebhook {
   incomingMessageReceived = "incomingMessageReceived",        /** уведомление о входящих сообщениях и файлах */
   outgoingMessageReceived = "outgoingMessageReceived",        /** уведомление о сообщении, отправленного с телефона */
   outgoingAPIMessageReceived = "outgoingAPIMessageReceived",  /** уведомление о сообщении, отправленного из API */
@@ -60,7 +60,7 @@ export enum TWebhook {
   incomingCall = "incomingCall",                              /** уведомление о входящем звонке */
 }
 
-export enum TTypeMessage {
+export enum ETypeMessage {
   textMessage = "textMessage",          /** текстовое сообщение */
   imageMessage = "imageMessage",         /** сообщение с изображением */
   videoMessage = "videoMessage",         /** видео сообщение */
@@ -87,7 +87,7 @@ export interface ISenderData {
 export type TMessageData = TTextMessage
 
 interface TTextMessage {
-  typeMessage: Extract<TTypeMessage, 'textMessage'>
+  typeMessage: Extract<ETypeMessage, 'textMessage'>
   textMessageData: ITextMessageData
   quotedMessage?: IQuotedMessage
 }

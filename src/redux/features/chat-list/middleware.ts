@@ -2,7 +2,7 @@ import { createListenerMiddleware } from "@reduxjs/toolkit";
 import { addMessages, sendMessage } from "./chatListSlice";
 import { RootState } from "@redux/store";
 import whatsAppClient from '@green-api/whatsapp-api-client'
-import { IChatMessage, TTypeMessage } from "@custom-types/types.d";
+import { IChatMessage, ETypeMessage } from "@custom-types/types.d";
 
 const chatListMiddleware = createListenerMiddleware();
 
@@ -25,7 +25,7 @@ chatListMiddleware.startListening({
             textMessage,
             timestamp: Date.now(),
             type: "outgoing",
-            typeMessage: TTypeMessage.textMessage
+            typeMessage: ETypeMessage.textMessage
           }
 
           listenerApi.dispatch(addMessages({ chatId, messages: [chatMessage] }))
