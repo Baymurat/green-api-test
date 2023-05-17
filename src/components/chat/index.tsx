@@ -2,8 +2,8 @@ import Avatar from '@mui/material/Avatar'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField'
-import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
+import { IoSendSharp } from 'react-icons/io5'
 
 import { IChatMessage, IContactInfo } from '@custom-types/types'
 import SentMessage from './components/SentMessage'
@@ -80,6 +80,9 @@ const Chat = ({ messages, companion }: Props) => {
           fullWidth
           multiline
           maxRows={2}
+          InputProps={{
+            sx: { padding: '0.5rem' }
+          }}
           placeholder='Введите сообщение'
           onKeyDown={(event) => {
             const { code } = event
@@ -105,9 +108,14 @@ const Chat = ({ messages, companion }: Props) => {
             },
           }}
         />
-        <Button variant='contained' >
-          Send
-        </Button>
+        <Stack justifyContent={'center'}        >
+          <IoSendSharp
+            onClick={() => { }}
+            size={25}
+            cursor={'pointer'}
+            fill='gray'
+          />
+        </Stack>
       </Stack>
     </Stack>
   )
