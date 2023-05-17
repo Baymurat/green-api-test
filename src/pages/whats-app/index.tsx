@@ -3,22 +3,37 @@ import ChatList from '@components/chat-list'
 import Stack from '@mui/material/Stack'
 import Box from '@mui/material/Box'
 import { useGetContactsQuery } from '@hooks/useData'
-import { useAppSelector } from '@hooks/redux-hooks'
+import { useAppDispatch, useAppSelector } from '@hooks/redux-hooks'
 import { selectedChatSelector } from '@redux/features/selectedChat/selectedChatSlice'
 import { useEffect, useState } from 'react'
 import { useGetMessagesMutation, useGetUserInfoMutation } from '@redux/features/messages/messagesSlice'
 import { useAuthContext } from '@context/AuthContextProvider'
-import { IChatMessage, IContactInfo } from '@custom-types/types'
+import { IContactInfo } from '@custom-types/types'
+import { notificationsStateSelector, starNotificationsListening } from '@redux/features/notifications/notificationsSlice'
+import { setUser } from '@redux/features/user/userSlice'
+import { chatSelector, setMessages } from '@redux/features/chat-list/chatListSlice'
 
 const WhatsApp = () => {
   const { data: contacts } = useGetContactsQuery()
-  const selected = useAppSelector(selectedChatSelector)
-  const { user } = useAuthContext()
   const [getMessages] = useGetMessagesMutation()
   const [getUserInfo] = useGetUserInfoMutation()
 
-  const [messages, setMessages] = useState<IChatMessage[]>([])
+  const selected = useAppSelector(selectedChatSelector)
+  const { isStarted } = useAppSelector(notificationsStateSelector)
+  const chat = useAppSelector(chatSelector(selected))
+
+  const dispatch = useAppDispatch()
+
+  const { user } = useAuthContext()
+
   const [companion, setCompanion] = useState<IContactInfo | null>(null)
+
+  useEffect(() => {
+    if (user != null && !isStarted) {
+      dispatch(starNotificationsListening({ isStarted: true, user }))
+      dispatch(setUser(user))
+    }
+  }, [isStarted, user, dispatch])
 
   useEffect(() => {
     if (user != null && selected != null && selected !== '') {
@@ -29,7 +44,7 @@ const WhatsApp = () => {
         count: 20
       }).then((response) => {
         if ('data' in response) {
-          setMessages(response.data)
+          dispatch(setMessages({ chatId: selected, messages: response.data }))
         }
       })
 
@@ -43,7 +58,7 @@ const WhatsApp = () => {
         }
       })
     }
-  }, [selected, user, getMessages, getUserInfo])
+  }, [selected, user, getMessages, getUserInfo, dispatch])
 
   return (
     <Stack
@@ -80,7 +95,7 @@ const WhatsApp = () => {
       </Box>
       <Box flex={'6 1 auto'} >
         <Chat
-          messages={messages}
+          messages={chat?.messages ?? []}
           companion={companion}
         />
       </Box>
