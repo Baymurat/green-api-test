@@ -22,9 +22,21 @@ export const messagesApi = createApi({
         url: `waInstance${idInstance}/GetChatHistory/${apiTokenInstance}`,
         method: 'POST',
         body: { chatId, count }
+      }),
+    }),
+    sendMessage: builder.mutation<{ idMessage: string }, { idInstance: string, apiTokenInstance: string, chatId: string, message: string }>({
+      query: ({ idInstance, apiTokenInstance, chatId, message }) => ({
+        url: `waInstance${idInstance}/SendMessage/${apiTokenInstance}`,
+        method: 'POST',
+        body: { chatId, message }
       })
     })
   })
 })
 
-export const { useGetContactsQuery, useGetMessagesMutation, useGetUserInfoMutation } = messagesApi
+export const {
+  useGetContactsQuery,
+  useGetMessagesMutation,
+  useGetUserInfoMutation,
+  useSendMessageMutation,
+} = messagesApi

@@ -9,6 +9,8 @@ import { IChatMessage, IContactInfo } from '@custom-types/types'
 import SentMessage from './components/SentMessage'
 import ReceivedMessage from './components/ReceivedMessage'
 import React, { useState } from 'react'
+import { useSendMessageMutation } from '@redux/features/messages/messagesSlice'
+import { useAuthContext } from '@context/AuthContextProvider'
 
 interface Props {
   messages: IChatMessage[]
@@ -17,6 +19,10 @@ interface Props {
 
 const Chat = ({ messages, companion }: Props) => {
   const [pressedKeys, setPressedKeys] = useState<Record<string, string>>({})
+  const [message, setMessage] = useState<string>('')
+
+  const [sendMessage] = useSendMessageMutation()
+  const { user } = useAuthContext()
 
   if (companion == null) {
     return (
@@ -28,6 +34,23 @@ const Chat = ({ messages, companion }: Props) => {
         }}
       />
     )
+  }
+
+  const handleSendMessage = () => {
+    if (message === '') {
+      return
+    }
+
+    sendMessage({
+      apiTokenInstance: user?.apiTokenInstance ?? '',
+      idInstance: user?.idInstance ?? '',
+      chatId: companion.chatId,
+      message
+    }).then((response) => {
+      if ('data' in response) {
+        setMessage('')
+      }
+    })
   }
 
   return (
@@ -83,13 +106,15 @@ const Chat = ({ messages, companion }: Props) => {
           InputProps={{
             sx: { padding: '0.5rem' }
           }}
+          onChange={({ target }) => setMessage(target.value)}
+          value={message}
           placeholder='Введите сообщение'
           onKeyDown={(event) => {
             const { code } = event
 
             if ((code === 'NumpadEnter' || code === 'Enter') && pressedKeys.ShiftLeft === undefined) {
               event.preventDefault()
-              console.log('SEND MESSAGE');
+              handleSendMessage()
             }
             setPressedKeys((prev) => ({ ...prev, [code]: code }))
           }}
@@ -110,7 +135,7 @@ const Chat = ({ messages, companion }: Props) => {
         />
         <Stack justifyContent={'center'}        >
           <IoSendSharp
-            onClick={() => { }}
+            onClick={handleSendMessage}
             size={25}
             cursor={'pointer'}
             fill='gray'
