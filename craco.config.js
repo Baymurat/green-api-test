@@ -10,6 +10,15 @@ module.exports = {
       '@custom-types': path.resolve(__dirname, 'src/custom-types'),
       '@redux': path.resolve(__dirname, 'src/redux'),
       '@hooks': path.resolve(__dirname, 'src/hooks'),
-    }
+    },
+    configure: {
+      resolve: {
+        fallback: {
+          "fs": false,
+          "os": false,
+          "path": false,
+        }
+      }
+    },
   }
 }
