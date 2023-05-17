@@ -17,6 +17,7 @@ const SentMessage = ({ timestamp, textMessage }: Props) => {
       padding={'0.5rem'}
       borderRadius={'5px'}
       mb={1}
+      maxWidth={350}
     >
       <Box mr={1}>
         <Typography>
@@ -32,12 +33,11 @@ const SentMessage = ({ timestamp, textMessage }: Props) => {
           {date.getHours()}:{date.getMinutes()}
         </Typography>
       </Box>
-      <Box
+      {/* <Box
         position={'relative'}
         bottom={-10}
       >
-        +
-      </Box>
+      </Box> */}
     </Stack>
   )
 }

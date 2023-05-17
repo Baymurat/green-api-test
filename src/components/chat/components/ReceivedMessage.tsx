@@ -16,6 +16,8 @@ const ReceivedMessage = ({ timestamp, textMessage }: Props) => {
       bgcolor={'#cfcdb7d6'}
       padding={'0.5rem'}
       borderRadius={'5px'}
+      mb={1}
+      maxWidth={350}
     >
       <Box mx={1}>
         <Typography>
