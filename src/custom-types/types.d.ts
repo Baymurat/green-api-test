@@ -49,25 +49,27 @@ export interface Message {
   messageData: TMessageData
 }
 
-export type TWebhook =
-  | "incomingMessageReceived"    /** уведомление о входящих сообщениях и файлах */
-  | "outgoingMessageReceived"    /** уведомление о сообщении, отправленного с телефона */
-  | "outgoingAPIMessageReceived" /** уведомление о сообщении, отправленного из API */
-  | "outgoingMessageStatus"      /** уведомление о статусах отправки/доставки/прочтении исходящих сообщений */
-  | "stateInstanceChanged"       /** уведомление об изменении состояния авторизации аккаунта */
-  | "statusInstanceChanged"      /** уведомление об изменении состояния сокета аккаунта */
-  | "deviceInfo"                 /** уведомление об устройстве (телефоне) и уровне заряда батареи */
-  | "incomingCall"               /** уведомление о входящем звонке */
+export enum TWebhook {
+  incomingMessageReceived = "incomingMessageReceived",        /** уведомление о входящих сообщениях и файлах */
+  outgoingMessageReceived = "outgoingMessageReceived",        /** уведомление о сообщении, отправленного с телефона */
+  outgoingAPIMessageReceived = "outgoingAPIMessageReceived",  /** уведомление о сообщении, отправленного из API */
+  outgoingMessageStatus = "outgoingMessageStatus",            /** уведомление о статусах отправки/доставки/прочтении исходящих сообщений */
+  stateInstanceChanged = "stateInstanceChanged",              /** уведомление об изменении состояния авторизации аккаунта */
+  statusInstanceChanged = "statusInstanceChanged",            /** уведомление об изменении состояния сокета аккаунта */
+  deviceInfo = "deviceInfo",                                  /** уведомление об устройстве (телефоне) и уровне заряда батареи */
+  incomingCall = "incomingCall",                              /** уведомление о входящем звонке */
+}
 
-export type TTypeMessage =
-  | "textMessage"          /** текстовое сообщение */
-  | "imageMessage"         /** сообщение с изображением */
-  | "videoMessage"         /** видео сообщение */
-  | "documentMessage"      /** сообщение с файлом документа */
-  | "audioMessage"         /** аудио сообщение */
-  | "locationMessage"      /** сообщение геолокации */
-  | "contactMessage"       /** сообщение с контактом */
-  | "extendedTextMessage"  /** сообщение со ссылкой и превью */
+export enum TTypeMessage {
+  textMessage = "textMessage",          /** текстовое сообщение */
+  imageMessage = "imageMessage",         /** сообщение с изображением */
+  videoMessage = "videoMessage",         /** видео сообщение */
+  documentMessage = "documentMessage",      /** сообщение с файлом документа */
+  audioMessage = "audioMessage",         /** аудио сообщение */
+  locationMessage = "locationMessage",      /** сообщение геолокации */
+  contactMessage = "contactMessage",       /** сообщение с контактом */
+  extendedTextMessage = "extendedTextMessage",  /** сообщение со ссылкой и превью */
+}
 
 export interface IInstanceData {
   idInstance: integer
