@@ -8,9 +8,9 @@ import { IoSendSharp } from 'react-icons/io5'
 import { IChatMessage, IContactInfo } from '@custom-types/types'
 import SentMessage from './components/SentMessage'
 import ReceivedMessage from './components/ReceivedMessage'
-import React, { useState } from 'react'
-import { useSendMessageMutation } from '@redux/features/messages/messagesSlice'
-import { useAuthContext } from '@context/AuthContextProvider'
+import { useState } from 'react'
+import { sendMessage as sendMessageActionCreator } from '@redux/features/chat-list/chatListSlice'
+import { useAppDispatch } from '@hooks/redux-hooks'
 
 interface Props {
   messages: IChatMessage[]
@@ -19,10 +19,8 @@ interface Props {
 
 const Chat = ({ messages, companion }: Props) => {
   const [pressedKeys, setPressedKeys] = useState<Record<string, string>>({})
-  const [message, setMessage] = useState<string>('')
-
-  const [sendMessage] = useSendMessageMutation()
-  const { user } = useAuthContext()
+  const [textMessage, setMessage] = useState<string>('')
+  const dispatch = useAppDispatch()
 
   if (companion == null) {
     return (
@@ -37,20 +35,15 @@ const Chat = ({ messages, companion }: Props) => {
   }
 
   const handleSendMessage = () => {
-    if (message === '') {
+    if (textMessage === '') {
       return
     }
 
-    sendMessage({
-      apiTokenInstance: user?.apiTokenInstance ?? '',
-      idInstance: user?.idInstance ?? '',
+    dispatch(sendMessageActionCreator({
       chatId: companion.chatId,
-      message
-    }).then((response) => {
-      if ('data' in response) {
-        setMessage('')
-      }
-    })
+      textMessage
+    }))
+    setMessage('')
   }
 
   return (
@@ -107,7 +100,7 @@ const Chat = ({ messages, companion }: Props) => {
             sx: { padding: '0.5rem' }
           }}
           onChange={({ target }) => setMessage(target.value)}
-          value={message}
+          value={textMessage}
           placeholder='Введите сообщение'
           onKeyDown={(event) => {
             const { code } = event
