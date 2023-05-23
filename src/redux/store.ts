@@ -6,6 +6,7 @@ import notificationsSlice from './features/notifications/notificationsSlice'
 import userSlice from './features/user/userSlice'
 import { chatListMiddleware } from './features/chat-list/middleware'
 import chatListSlice from './features/chat-list/chatListSlice'
+import { webSocketmsMiddleware } from './features/notifications/webSocketsMiddleware'
 
 export const store = configureStore({
   reducer: {
@@ -19,6 +20,7 @@ export const store = configureStore({
     .prepend(chatListMiddleware.middleware)
     .concat(messagesApi.middleware)
     .concat(notificationsMiddleware)
+    .concat(webSocketmsMiddleware)
 })
 
 export type RootState = ReturnType<typeof store.getState>
